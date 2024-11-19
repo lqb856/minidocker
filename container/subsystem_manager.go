@@ -61,6 +61,7 @@ func GetCgroupsManager() (*CgroupsManager, error) {
 func (m *CgroupsManager) CreateCgroup(name string) error {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
+
 	if _, ok := m.cgroups[name]; ok {
 		log.Infof("cgroup %s already exists\n", name)
 		return nil
@@ -99,12 +100,12 @@ func (m *CgroupsManager) Destroy(cg_name string) error {
 	}
 	full_path := path.Join(m.cgroupsRoot, cg_name)
 	if err := os.RemoveAll(full_path); err != nil {
-		delete(m.cgroups, cg_name)
-		log.Info("cgroup destroyed:", full_path)
-		return nil
-	} else {
+		log.Errorf("failed to destroy cgroup %s err: %v\n", cg_name, err)
 		return err
 	}
+	delete(m.cgroups, cg_name)
+	log.Info("cgroup destroyed:", full_path)
+	return nil
 }
 
 func (m *CgroupsManager) Set(cg_name string, res *cgroups.ResourceConfig) error {

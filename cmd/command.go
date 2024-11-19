@@ -54,6 +54,10 @@ var RunCommand = cli.Command{
 			Name: "cpuset",
 			Usage: "cpu set limit, e.g.: -cpuset 0-2 or -cpuset 0,1",
 		},
+		cli.StringFlag{
+			Name: "v",
+			Usage: "volume path, e.g.: -v /home:/root",
+		},
 	},
 	Action: func(context *cli.Context) error {
 		if len(context.Args()) < 1 {
@@ -72,7 +76,9 @@ var RunCommand = cli.Command{
 			CpuWeightNice: context.String("cpu-weight-nice"),
 			CpuSet: context.String("cpuset"),
 		}
-		Run(cmd, tty, resConf)
+		rootDir := "/home/lqb/go-project/minidocker/overlay"
+		volume := context.String("v")
+		Run(cmd, rootDir, volume, tty, resConf)
 		return nil
 	},
 }

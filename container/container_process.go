@@ -17,9 +17,10 @@ import (
  * @Description: Create a new process with separated namespace
  * @param tty attach stdin, stdout, stderr to os.Stdin, os.Stdout, os.Stderr
  * @param command command to run
+ * @param rootDir root directory of the container
  * @return *exec.Cmd process, *os.File pipe, error
  */
-func NewProcess(command []string, tty bool) (*exec.Cmd, *os.File, error) {
+func NewProcess(command []string, rootDir string, volume string, tty bool) (*exec.Cmd, *os.File, error) {
 	log.Infof("Creating new process, command: %s, tty: %v", command, tty)
 
 	// use Pipe to communicate with the child process.
@@ -40,8 +41,15 @@ func NewProcess(command []string, tty bool) (*exec.Cmd, *os.File, error) {
 	}
 	// Set the pipe as the extra file descriptor for the command.
 	cmd.ExtraFiles = []*os.File{readPipe}
+	
 	// Use busybox as rootfs.
-	cmd.Dir = "/home/lqb/go-project/minidocker/busybox"
+	mergeDir, err := NewWorkSpace(rootDir, volume)
+	if err != nil {
+		log.Errorf("Failed to create workspace: %v", err)
+		return nil, nil, err
+	}
+	cmd.Dir = mergeDir
+
 	if tty {
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout

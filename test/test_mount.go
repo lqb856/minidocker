@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	newRoot := "/home/lqb/go-project/minidocker/busybox"
+	newRoot := "/home/lqb/go-project/minidocker/overlay/busybox"
 	syscall.Chdir("newRoot")
 
 	// 创建必要的目录结构

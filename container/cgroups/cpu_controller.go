@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type CPUController struct {}
@@ -24,6 +26,7 @@ func (cs *CPUController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "cpu.max"), res.CpuMax + " 100000"); err != nil {
 			return fmt.Errorf("failed to set cpu.max: %v", err)
 		}
+		log.Infof("Set cpu.max: %s", res.CpuMax)
 	}
 
 	// Set cpu.weight
@@ -31,6 +34,7 @@ func (cs *CPUController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "cpu.weight"), res.CpuWeight); err != nil {
 			return fmt.Errorf("failed to set cpu.weight: %v", err)
 		}
+		log.Infof("Set cpu.weight: %s", res.CpuWeight)
 	}
 
 	// Set cpu.weight
@@ -38,6 +42,7 @@ func (cs *CPUController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "cpu.weight.nice"), res.CpuWeightNice); err != nil {
 			return fmt.Errorf("failed to set cpu.weight.nice: %v", err)
 		}
+		log.Infof("Set cpu.weight.nice: %s", res.CpuWeightNice)
 	}
 
 	// Set cpuset.cpus
@@ -45,6 +50,7 @@ func (cs *CPUController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "cpuset.cpus"), res.CpuSet); err != nil {
 			return fmt.Errorf("failed to set cpuset.cpus: %v", err)
 		}
+		log.Infof("Set cpuset.cpus: %s", res.CpuSet)
 	}
 
 	return nil

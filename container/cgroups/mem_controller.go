@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type MemoryController struct {}
@@ -24,6 +26,7 @@ func (ms *MemoryController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "memory.max"), res.MemoryMax); err != nil {
 			return fmt.Errorf("failed to set memory.max: %v", err)
 		}
+		log.Infof("Set memory.max: %s", res.MemoryMax)
 	}
 
 	// Set memory.min
@@ -31,6 +34,7 @@ func (ms *MemoryController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "memory.min"), res.MemoryMin); err != nil {
 			return fmt.Errorf("failed to set memory.min: %v", err)
 		}
+		log.Infof("Set memory.min: %s", res.MemoryMin)
 	}
 
 	// Set memory.swap.max
@@ -38,6 +42,7 @@ func (ms *MemoryController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "memory.swap.max"), res.MemorySwapMax); err != nil {
 			return fmt.Errorf("failed to set memory.swap.max: %v", err)
 		}
+		log.Infof("Set memory.swap.max: %s", res.MemorySwapMax)
 	}
 
 	// Set memory.low
@@ -45,6 +50,7 @@ func (ms *MemoryController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "memory.low"), res.MemoryLow); err != nil {
 			return fmt.Errorf("failed to set memory.low: %v", err)
 		}
+		log.Infof("Set memory.low: %s", res.MemoryLow)
 	}
 
 	// Set memory.high
@@ -52,6 +58,7 @@ func (ms *MemoryController) Set(path string, res *ResourceConfig) error {
 		if err := writeToFile(filepath.Join(path, "memory.high"), res.MemoryHigh); err != nil {
 			return fmt.Errorf("failed to set memory.high: %v", err)
 		}
+		log.Infof("Set memory.high: %s", res.MemoryHigh)
 	}
 
 	// TODO(lqb): Set other memory constraints

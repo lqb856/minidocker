@@ -40,7 +40,7 @@ var RunCommand = cli.Command{
 		},
 		cli.StringFlag{
 			Name: "cpu",
-			Usage: "max cpu usage of this group, e.g.: -cpu-max 100",
+			Usage: "max cpu usage of this group, e.g.: -cpu 100",
 		},
 		cli.StringFlag{
 			Name: "cpu-weight",

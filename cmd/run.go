@@ -26,6 +26,7 @@ func Run(cmd []string, tty bool, res *cgroups.ResourceConfig) {
 		log.Error(err)
 	}
 
+	log.Infof("Rescource config: %v", res)
 	cgroupManager, err := container.GetCgroupsManager()
 	if err == nil {
 		cgroupManager.CreateCgroup("minidocker-cgroup")
